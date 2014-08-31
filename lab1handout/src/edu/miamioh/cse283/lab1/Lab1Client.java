@@ -40,27 +40,27 @@ public class Lab1Client {
 			// DataOutputStream):
 			ByteArrayOutputStream bout = new ByteArrayOutputStream();
 			int t = Integer.parseInt(args[1]); // get from args[1]
+			//System.out.println(t);
 			bout.write(t);
 
 			// build a DatagramPacket containing integer t:
 
-			InetAddress ia = InetAddress.getByName(args[0]);
+			InetAddress ip = InetAddress.getByName(args[0]);
 			
-			byte[] b = new byte[8];
+			byte[] b = new byte[256];
 
-			DatagramPacket dp = new DatagramPacket(bout.toByteArray(), bout.toByteArray().length);
-			DatagramSocket ds = new DatagramSocket(PORT, ia);
-			ds.send(dp);
+			DatagramPacket packet = new DatagramPacket(bout.toByteArray(), bout.toByteArray().length, ip, PORT);
+			DatagramSocket socket = new DatagramSocket();
+			socket.send(packet);
 
-			// send the packet to address args[0] on port PORT (see:
-			// InetAddress):
+			// send the packet to address args[0] on port PORT (see: InetAddress):
 
 			// echo it to the console (don't change this):
 			System.out.print("sent: " + t);
 
 			// receive a response (see: DataInputStream, ByteArrayInputStream):
-			DatagramPacket dp2 = new DatagramPacket(b, b.length, ia, PORT);
-			ds.receive(dp2);
+			DatagramPacket dp2 = new DatagramPacket(b, b.length, ip, PORT);
+			socket.receive(dp2);
 			ByteArrayInputStream bs = new ByteArrayInputStream(dp2.getData());
 			int i = bs.read();
 	
@@ -68,7 +68,7 @@ public class Lab1Client {
 			int r = i; // get from packet
 			System.out.println("; received: " + r);
 
-			ds.close();
+			socket.close();
 		} finally {
 
 		}
