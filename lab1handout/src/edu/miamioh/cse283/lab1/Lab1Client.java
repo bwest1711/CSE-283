@@ -34,6 +34,7 @@ public class Lab1Client {
 		}
 
 		// Construct a socket to use for communication (see: DatagramSocket):
+		DatagramSocket socket = new DatagramSocket();
 
 		try {
 			// pack the integer into a byte array (see: ByteArrayOutputStream,
@@ -50,7 +51,6 @@ public class Lab1Client {
 			byte[] b = new byte[256];
 
 			DatagramPacket packet = new DatagramPacket(bout.toByteArray(), bout.toByteArray().length, ip, PORT);
-			DatagramSocket socket = new DatagramSocket();
 			socket.send(packet);
 
 			// send the packet to address args[0] on port PORT (see: InetAddress):
@@ -68,9 +68,8 @@ public class Lab1Client {
 			int r = i; // get from packet
 			System.out.println("; received: " + r);
 
-			socket.close();
 		} finally {
-
+			socket.close();
 		}
 	}
 }
