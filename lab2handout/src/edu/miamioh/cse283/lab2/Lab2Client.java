@@ -1,8 +1,11 @@
 package edu.miamioh.cse283.lab2;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 
 /**
  * Template client for CSE283 Lab2, FS2014.
@@ -34,23 +37,40 @@ public class Lab2Client {
 		}
 		
 		String address = args[0];
-		String numPackets = args[1];
+		String rate = args[1];
 		String size = args[2];
-		String rate = args[3];
+		String numPackets = args[3];
+		
+		System.out.println(rate);
+		System.out.println(size);
+		System.out.println(numPackets);
 
 		// Construct a socket to use for communication (see: DatagramSocket):
 		DatagramSocket s = null;
 		try {
-			s = new DatagramSocket(PORT);
+			s = new DatagramSocket();
 
 			// assemble the first packet to communicate the packet stream parameters to the server:
-
 			byte[] b = new byte[5];
-			b[0] = (byte) 250;
+			byte r = Byte.parseByte(rate);
+			short sz = Short.parseShort(size);
+			short n = Short.parseShort(numPackets);
 			
+			ByteArrayOutputStream bout = new ByteArrayOutputStream();
+			DataOutputStream dout = new DataOutputStream(bout);
+			dout.write(r);
+			dout.writeShort(sz);
+			dout.writeShort(n);
+			dout.flush();
 			
-			DatagramPacket p = new DatagramPacket(b, b.length);
+			b = bout.toByteArray();
+			
+			InetAddress ip = InetAddress.getByName(address);
+			
+			DatagramPacket p = new DatagramPacket(b, b.length, ip, PORT);
 			// send it:
+			
+			s.send(p);
 
 			// receive a bunch of packets from the server:
 
@@ -62,7 +82,10 @@ public class Lab2Client {
 			double packetLoss = 0.0;
 			System.out.println("Packet loss averages: " + packetLoss + "packets/second");
 
-		} finally {
+		} catch(Exception e){
+			e.printStackTrace();
+		}
+		finally {
 			// close the socket:
 			if (s != null) {
 				s.close();
