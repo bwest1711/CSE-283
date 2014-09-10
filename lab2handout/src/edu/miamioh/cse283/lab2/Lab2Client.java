@@ -79,7 +79,6 @@ public class Lab2Client {
 
 			// Keep track of how long it takes for packets to arrive
 			long startTime = System.currentTimeMillis();
-			Object o = new Object();
 
 			while (true) {
 				// A byte array of specified size (from args)
