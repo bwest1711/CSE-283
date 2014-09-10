@@ -66,13 +66,8 @@ public class Lab2Server {
 				}
 
 				toSend = new DatagramPacket(sending, sending.length, ip, p.getPort());
-				// - assemble the packet
-				// - wait the right amount of time to hit the requested sending rate
-				// see: Object.wait(long millis) and the concurrency lesson listed in the lab description
 				s.send(toSend);
 
-				// - send the packet
-				// end loop
 				if (numPackets == 0)
 					break;
 				else {
@@ -80,9 +75,7 @@ public class Lab2Server {
 					numPackets--;
 				}
 			}
-		} catch (SocketException | InterruptedException | IllegalMonitorStateException | NullPointerException ex) { // this will not compile until you
-																													// start filling in the socket
-																													// code
+		} catch (SocketException | InterruptedException | IllegalMonitorStateException | NullPointerException ex) {
 			System.out.println("Could not open socket (is the server already running?).");
 			ex.printStackTrace();
 		} finally {
