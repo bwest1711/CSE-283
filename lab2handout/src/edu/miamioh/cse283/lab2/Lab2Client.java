@@ -36,8 +36,8 @@ public class Lab2Client {
 		// Read the parameters from the command line
 		String _address = args[0];
 		String _delay = args[1];
-		String _size = args[2];
-		String _numPackets = args[3];
+		String _numPackets = args[2];
+		String _size = args[3];
 
 		// Display the input 
 		System.out.println("Rate: " + _delay + " ms");
@@ -57,7 +57,7 @@ public class Lab2Client {
 			short numPackets = Short.parseShort(_numPackets);
 
 			// Tell the socket how long to wait before timing out
-			socket.setSoTimeout((int) 10 * delay);
+			socket.setSoTimeout((int) 100 * delay);
 
 			// Create and add header information
 			ByteArrayOutputStream bout = new ByteArrayOutputStream();
@@ -114,7 +114,7 @@ public class Lab2Client {
 			
 			// Calculate everything
 			long endTime = System.currentTimeMillis();
-			long totalTime = endTime - startTime;
+			long totalTime = (endTime - startTime) / 1000;
 
 			long totalBytes = receivedPackets * size;
 			int lostPackets = numPackets - receivedPackets;
@@ -122,11 +122,12 @@ public class Lab2Client {
 			double throughput = (double) totalBytes / totalTime;
 			double packetLoss = (double) lostPackets / totalTime;
 
-			System.out.println("Total time taken: " + totalTime + " ms");
+			System.out.println("Total time taken: " + totalTime + " seconds");
 			System.out.println("Measured throughput is: " + throughput + " bytes/second");
 			System.out.println("Packet loss averages: " + packetLoss + " packets/second");
 
 		} catch (Exception e) {
+			System.out.println("Something failed");
 			e.printStackTrace();
 		} finally {
 			if (socket != null) {
