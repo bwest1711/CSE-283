@@ -40,28 +40,29 @@ public class Lab2Server {
 			ByteArrayInputStream bis = new ByteArrayInputStream(b);
 			DataInputStream dis = new DataInputStream(bis);
 			InetAddress ip = p.getAddress();
-			
+
 			byte rate = dis.readByte();
-			short size = dis.readShort();
 			short numPackets = dis.readShort();
+			short size = dis.readShort();
 
 			System.out.println("Rate: " + rate);
 			System.out.println("Size: " + size);
 			System.out.println("Num Packets: " + numPackets);
 
 			byte[] sending = new byte[size];
-			
-			for(short j = 0; j < size; j++){
+
+			for (short j = 0; j < size; j++) {
 				sending[j] = (byte) 1;
 			}
-			
 
 			DatagramPacket toSend;
 
 			while (true) {
 				// for each packet you're supposed to send:
-				synchronized (o) {
-					o.wait(rate);
+				if (rate != 0) {
+					synchronized (o) {
+						o.wait(rate);
+					}
 				}
 
 				toSend = new DatagramPacket(sending, sending.length, ip, p.getPort());
@@ -69,17 +70,19 @@ public class Lab2Server {
 				// - wait the right amount of time to hit the requested sending rate
 				// see: Object.wait(long millis) and the concurrency lesson listed in the lab description
 				s.send(toSend);
-				
+
 				// - send the packet
 				// end loop
 				if (numPackets == 0)
 					break;
 				else {
-					//System.out.println(numPackets);
+					// System.out.println(numPackets);
 					numPackets--;
 				}
 			}
-		} catch (SocketException | InterruptedException | IllegalMonitorStateException | NullPointerException ex) { // this will not compile until you start filling in the socket code
+		} catch (SocketException | InterruptedException | IllegalMonitorStateException | NullPointerException ex) { // this will not compile until you
+																													// start filling in the socket
+																													// code
 			System.out.println("Could not open socket (is the server already running?).");
 			ex.printStackTrace();
 		} finally {
