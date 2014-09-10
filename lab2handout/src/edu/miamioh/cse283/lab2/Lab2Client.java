@@ -78,8 +78,9 @@ public class Lab2Client {
 			socket.send(sendPacket);
 
 			// Keep track of how long it takes for packets to arrive
-			long startTime = System.currentTimeMillis();
 			boolean isAllPackets;
+			long endTime;
+			long startTime = System.currentTimeMillis();
 
 			while (true) {
 				// A byte array of specified size (from args)
@@ -101,17 +102,19 @@ public class Lab2Client {
 					if (receivedPackets == numPackets) {
 						System.out.println("Received all packets.");
 						isAllPackets = true;
+						// Calculate everything
+						endTime = System.currentTimeMillis();
 						break;
 					}
 				} catch (Exception e) {
 					System.out.println("Only received: " + receivedPackets);
 					isAllPackets = false;
+					// Calculate everything
+					endTime = System.currentTimeMillis();
 					break;
 				}
 			}
 
-			// Calculate everything
-			long endTime = System.currentTimeMillis();
 
 			// Account for server timeout
 			if (!isAllPackets) {
