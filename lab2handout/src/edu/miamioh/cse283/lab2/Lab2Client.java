@@ -35,32 +35,35 @@ public class Lab2Client {
 
 		// Read the parameters from the command line
 		String _address = args[0];
-		String _rate = args[1];
+		String _delay = args[1];
 		String _size = args[2];
 		String _numPackets = args[3];
 
 		// Display the input 
-		System.out.println("Rate: " + _rate + " ms");
+		System.out.println("Rate: " + _delay + " ms");
 		System.out.println("Size: " + _size + " bytes");
 		System.out.println("Number of Packets: " + _numPackets);
 
-		// Construct a socket to use for communication (see: DatagramSocket):
 		DatagramSocket socket = null;
+		
+		// Keeps track of the number of packets actually received
 		short receivedPackets = 0;
 		try {
 			socket = new DatagramSocket();
 
 			// assemble the first packet to communicate the packet stream parameters to the server:
-			byte rate = Byte.parseByte(_rate);
+			byte delay = Byte.parseByte(_delay);
 			short size = Short.parseShort(_size);
 			short numPackets = Short.parseShort(_numPackets);
 
-			socket.setSoTimeout((int) 10 * rate);
+			// Tell the socket how long to wait before timing out
+			socket.setSoTimeout((int) 10 * delay);
 
+			// Create and add header information
 			ByteArrayOutputStream bout = new ByteArrayOutputStream();
 			DataOutputStream dout = new DataOutputStream(bout);
 
-			dout.write(rate);
+			dout.write(delay);
 			dout.writeShort(size);
 			dout.writeShort(numPackets);
 			dout.flush();
@@ -74,21 +77,31 @@ public class Lab2Client {
 
 			socket.send(sendPacket);
 
-			// receive a bunch of packets from the server:
+			// Keep track of how long it takes for packets to arrive
 			long startTime = System.currentTimeMillis();
-
+			
 			while (true) {
+				// A byte array of specified size (from args)
 				byte[] receivedByteArray = new byte[size];
+				
+				// The receiving packet
 				DatagramPacket received = new DatagramPacket(receivedByteArray, receivedByteArray.length);
+				
+				/*
+				 *  If the socket times out it will throw an exception. We want to handle this by assuming this means
+				 *  no more packets are coming and the 
+				 */
 				try {
+					// Attempt to receive the packet
 					socket.receive(received);
 					Object o = new Object();
 
+					// Wait the specified amount of time
 					synchronized (o) {
-						o.wait(rate);
+						o.wait(delay);
 						receivedPackets++;
 					}
-
+					// Determine if we are done recieving packets
 					if (receivedPackets == numPackets) {
 						System.out.println("Received all packets.");
 						break;
