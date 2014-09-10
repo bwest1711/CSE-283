@@ -49,7 +49,6 @@ public class Lab2Server {
 			System.out.println("Size: " + size);
 			System.out.println("Num Packets: " + numPackets);
 
-			int i = 0;
 			byte[] sending = new byte[size];
 			
 			for(short j = 0; j < size; j++){
@@ -61,25 +60,22 @@ public class Lab2Server {
 
 			while (true) {
 				// for each packet you're supposed to send:
-
-				toSend = new DatagramPacket(sending, sending.length, ip, PORT);
-
-				// - assemble the packet
-
-				// - wait the right amount of time to hit the requested sending rate
-				// see: Object.wait(long millis) and the concurrency lesson listed in the lab description
 				synchronized (o) {
 					o.wait(rate);
-					i++;
-					s.send(toSend);
 				}
+
+				toSend = new DatagramPacket(sending, sending.length, ip, p.getPort());
+				// - assemble the packet
+				// - wait the right amount of time to hit the requested sending rate
+				// see: Object.wait(long millis) and the concurrency lesson listed in the lab description
+				s.send(toSend);
 				
 				// - send the packet
 				// end loop
 				if (numPackets == 0)
 					break;
 				else {
-					System.out.println(numPackets);
+					//System.out.println(numPackets);
 					numPackets--;
 				}
 			}

@@ -33,74 +33,89 @@ public class Lab2Client {
 			return;
 		}
 
-		String address = args[0];
-		String rate = args[1];
-		String size = args[2];
-		String numPackets = args[3];
+		// Read the parameters from the command line
+		String _address = args[0];
+		String _rate = args[1];
+		String _size = args[2];
+		String _numPackets = args[3];
 
-		System.out.println(rate);
-		System.out.println(size);
-		System.out.println(numPackets);
+		// Display the input 
+		System.out.println("Rate: " + _rate + " ms");
+		System.out.println("Size: " + _size + " bytes");
+		System.out.println("Number of Packets: " + _numPackets);
 
 		// Construct a socket to use for communication (see: DatagramSocket):
-		DatagramSocket s = null;
+		DatagramSocket socket = null;
+		short receivedPackets = 0;
 		try {
-			s = new DatagramSocket();
+			socket = new DatagramSocket();
 
 			// assemble the first packet to communicate the packet stream parameters to the server:
-			byte[] b = new byte[5];
-			byte r = Byte.parseByte(rate);
-			short sz = Short.parseShort(size);
-			short n = Short.parseShort(numPackets);
+			byte rate = Byte.parseByte(_rate);
+			short size = Short.parseShort(_size);
+			short numPackets = Short.parseShort(_numPackets);
+
+			socket.setSoTimeout((int) 10 * rate);
 
 			ByteArrayOutputStream bout = new ByteArrayOutputStream();
 			DataOutputStream dout = new DataOutputStream(bout);
-			dout.write(r);
-			dout.writeShort(sz);
-			dout.writeShort(n);
+
+			dout.write(rate);
+			dout.writeShort(size);
+			dout.writeShort(numPackets);
 			dout.flush();
 
+			byte[] b = new byte[5];
 			b = bout.toByteArray();
 
-			InetAddress ip = InetAddress.getByName(address);
+			InetAddress ip = InetAddress.getByName(_address);
 
-			DatagramPacket p = new DatagramPacket(b, b.length, ip, PORT);
-			// send it:
+			DatagramPacket sendPacket = new DatagramPacket(b, b.length, ip, PORT);
 
-			s.send(p);
+			socket.send(sendPacket);
 
 			// receive a bunch of packets from the server:
+			long startTime = System.currentTimeMillis();
+
 			while (true) {
-				byte[] b2 = new byte[sz];
-				DatagramPacket received = new DatagramPacket(b2, b2.length, ip, PORT);
-				s.receive(received);
-				System.out.println("done");
-				Object o = new Object();
+				byte[] receivedByteArray = new byte[size];
+				DatagramPacket received = new DatagramPacket(receivedByteArray, receivedByteArray.length);
+				try {
+					socket.receive(received);
+					Object o = new Object();
 
-				synchronized (o) {
-					o.wait(r);
-					n--;
-				}
+					synchronized (o) {
+						o.wait(rate);
+						receivedPackets++;
+					}
 
-				if (n == 0)
+					if (receivedPackets == numPackets) {
+						System.out.println("Received all packets.");
+						break;
+					}
+				} catch (Exception e) {
+					System.out.println("Only received: " + receivedPackets);
 					break;
-
+				}
 			}
+			long endTime = System.currentTimeMillis();
+			long totalTime = endTime - startTime;
 
-			// calculate bytes/second (see System.currentTimeMillis() or System.nanoTime())
-			double throughput = 0.0;
+			long totalBytes = receivedPackets * size;
+			int lostPackets = numPackets - receivedPackets;
+
+			double throughput = (double) totalBytes / totalTime;
+			double packetLoss = (double) lostPackets / totalTime;
+
+			System.out.println("Total time taken: " + totalTime + " ms");
 			System.out.println("Measured throughput is: " + throughput + " bytes/second");
-
-			// calculate packet loss:
-			double packetLoss = 0.0;
-			System.out.println("Packet loss averages: " + packetLoss + "packets/second");
+			System.out.println("Packet loss averages: " + packetLoss + " packets/second");
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			// close the socket:
-			if (s != null) {
-				s.close();
+			if (socket != null) {
+				socket.close();
 			}
 		}
 	}
