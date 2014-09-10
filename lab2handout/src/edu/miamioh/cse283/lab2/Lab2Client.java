@@ -89,7 +89,7 @@ public class Lab2Client {
 				
 				/*
 				 *  If the socket times out it will throw an exception. We want to handle this by assuming this means
-				 *  no more packets are coming and the 
+				 *  no more packets are coming and there are lost packets.
 				 */
 				try {
 					// Attempt to receive the packet
@@ -101,7 +101,7 @@ public class Lab2Client {
 						o.wait(delay);
 						receivedPackets++;
 					}
-					// Determine if we are done recieving packets
+					// Determine if we are done receiving packets
 					if (receivedPackets == numPackets) {
 						System.out.println("Received all packets.");
 						break;
@@ -111,6 +111,8 @@ public class Lab2Client {
 					break;
 				}
 			}
+			
+			// Calculate everything
 			long endTime = System.currentTimeMillis();
 			long totalTime = endTime - startTime;
 
