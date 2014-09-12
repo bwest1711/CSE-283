@@ -3,12 +3,13 @@ package edu.miamioh.cse283;
 public class AMPProtocol {
 
 	public String processInput(String input) {
-		
-		switch(input) {
-		case "" :
+		String toReturn = "";
+		switch (input) {
+		case "":
+			toReturn = "This is a test";
 			break;
 		}
-		
-		return null;
+
+		return toReturn;
 	}
 }
