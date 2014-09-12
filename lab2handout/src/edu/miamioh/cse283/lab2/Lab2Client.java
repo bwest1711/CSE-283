@@ -96,31 +96,29 @@ public class Lab2Client {
 				try {
 					// Attempt to receive the packet
 					socket.receive(received);
+					endTime = System.currentTimeMillis();
 					receivedPackets++;
 
 					// Determine if we are done receiving packets
 					if (receivedPackets == numPackets) {
 						System.out.println("Received all packets.");
 						isAllPackets = true;
-						// Calculate everything
-						endTime = System.currentTimeMillis();
 						break;
 					}
 				} catch (Exception e) {
+					endTime = System.currentTimeMillis();
+
 					System.out.println("Only received: " + receivedPackets);
 					isAllPackets = false;
-					// Calculate everything
-					endTime = System.currentTimeMillis();
 					break;
 				}
 			}
 
-
 			// Account for server timeout
 			if (!isAllPackets) {
-				endTime -= delay * 1000 + 5000;
+				endTime -= (delay * 1000) + 5000;
 			}
-			
+
 			long totalTime = (endTime - startTime);
 
 			long totalBytes = receivedPackets * size;
