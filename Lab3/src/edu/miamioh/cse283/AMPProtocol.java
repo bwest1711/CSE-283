@@ -9,22 +9,22 @@ public class AMPProtocol {
 			toReturn = "This is a test";
 			break;
 		case "GET WORK":
-			toReturn = "This is a test";
+			toReturn = "Get Work Method";
 			break;
 		case "PUT ANSWER":
-			toReturn = "This is a test";
+			toReturn = "Put Answer Method";
 			break;
 		case "AMP WORK":
-			toReturn = "This is a test";
+			toReturn = "Amp Work Method";
 			break;
 		case "AMP NONE":
-			toReturn = "This is a test";
+			toReturn = "Amp None Method";
 			break;
 		case "AMP OK":
-			toReturn = "This is a test";
+			toReturn = "Amp Ok Method";
 			break;
 		case "AMP ERROR":
-			toReturn = "This is a test";
+			toReturn = "Amp Error Method";
 			break;
 		}
 

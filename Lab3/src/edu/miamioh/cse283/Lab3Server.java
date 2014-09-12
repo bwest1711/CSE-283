@@ -17,7 +17,7 @@ public class Lab3Server {
 
 			// Initiate conversation with client
 			AMPProtocol amp = new AMPProtocol();
-			outputLine = amp.processInput("");
+			outputLine = amp.processInput("GET WORK");
 			out.println(outputLine);
 
 			while ((inputLine = in.readLine()) != null) {
