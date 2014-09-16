@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 public class Lab3Client {
 	public static void main(String[] args) {
+		// Temporary for testing
 		Scanner stdin = new Scanner(System.in);
 		String _address = args[0];
 		String _port = args[1];
@@ -20,7 +21,7 @@ public class Lab3Client {
 			String fromServer, fromUser;
 			while ((fromServer = in.readLine()) != null) {
 				System.out.println("Server: " + fromServer);
-				if (fromServer.equals("Bye."))
+				if (fromServer.equals("AMP NONE"))
 					break;
 
 				fromUser = stdin.nextLine();
@@ -29,7 +30,6 @@ public class Lab3Client {
 					out.println(fromUser);
 				}
 			}
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
