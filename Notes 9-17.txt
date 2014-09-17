@@ -1,0 +1,6 @@
+UDP - connectionless
+TCP - Connection oriented
+
+socket is broken into two classes
+	- server socket -- returns a socket
+	- socket
