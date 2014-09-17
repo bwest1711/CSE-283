@@ -19,10 +19,18 @@ public class Lab3Client {
 				PrintWriter out = new PrintWriter(s.getOutputStream(), true);
 				BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));) {
 			String fromServer, fromUser;
+
+			out.println("GET WORK");
+			System.out.println("Client: GET WORK");
 			while ((fromServer = in.readLine()) != null) {
 				System.out.println("Server: " + fromServer);
+				
 				if (fromServer.equals("AMP NONE"))
 					break;
+				else if (fromServer.equals("AMP WORK")) {
+					fromServer = in.readLine();
+					System.out.println("        " + fromServer);
+				}
 
 				fromUser = stdin.nextLine();
 				if (fromUser != null) {
