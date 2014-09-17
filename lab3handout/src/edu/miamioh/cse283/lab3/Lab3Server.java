@@ -38,17 +38,15 @@ public class Lab3Server {
 
 		try {
 
-			server = new ServerSocket(10780);
-			client = server.accept();
 			// construct a server socket:
-			// server = new ServerSocket...
+			server = new ServerSocket(10780);
 			System.out.println("Lab3Server listening on: " + server.getLocalSocketAddress());
 			System.out.println("Lab3Server listening on: " + InetAddress.getLocalHost().getHostAddress() + ":" + server.getLocalPort());
 
 			// loop "forever":
 			while (true) {
 				// accept a client connection from the server socket:
-				// client = ...
+				client = server.accept();
 
 				// and build the reader and writer:
 				PrintWriter out = new PrintWriter(client.getOutputStream(), true);
@@ -107,6 +105,7 @@ public class Lab3Server {
 
 				client.close();
 				System.out.println("---- END: " + correct + " OF " + nwork + " CORRECT RESPONSES ----");
+				break;
 			}
 		} catch (SocketException ex) {
 			// only get here if something went wrong
