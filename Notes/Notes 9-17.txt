@@ -1,0 +1,12 @@
+UDP - connectionless
+TCP - Connection oriented
+
+socket is broken into two classes
+	- server socket -- returns a socket
+	- socket
+	
+Why flush an output stream?
+	- What if there is a large amount of data
+		- 10 GB might take a long time to send all data
+		- Allows you to continue working even if the data isn't all sent
+		

@@ -1,0 +1,20 @@
+Application
+OS
+Routers
+Socket
+
+A Application
+T OS
+N OS, Routers
+L OS, Routers
+P OS, Routers
+
+Socket - IP and Port
+	- Point where outside source connects to computer
+	- Applications use Sockets to communicate between the application and OS
+		- Similar to how network communicates using a NIC
+	- Internal routing table
+	- What is it doing at the OS level
+		 - Allocating resources that can be used for communication
+			- Send and receive buffers
+	- What lets an application talk to	any other application

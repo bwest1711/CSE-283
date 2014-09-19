@@ -1,0 +1,10 @@
+UDP
+	- Best effort/ connectionless
+
+TCP/IP
+	- Sends request for connection
+		Client - SYN
+		Server - SYN ACK
+		Client - ACK
+
+	DDOS - Distributed denial of service
