@@ -1,0 +1,32 @@
+Thread - Independent execution context
+
+
+public class ServerThread implements Runnable {
+	Socket client;
+	
+	public ServerThread(Socket c) {
+		client = c;
+	}
+
+	public void run() {
+		// Process 1 clients requests
+	}
+	
+	public static void main(String[] args) throws IOExcpetion {
+		ServerSocket server = null;
+		try{
+			server = new ServerSocket(port);
+			
+			while(true) {
+				Socket client = server.accept();
+				(new Thread(new ServerThread(this, client))).start();
+			}
+		}
+	}
+	
+	public synchronized void increment() {
+		amountCorrect++;
+	}
+}
+
+Thread.numberThreads
