@@ -1,28 +1,28 @@
 package edu.miamioh.cse283.lab4;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 
-import edu.miamioh.cse283.lab3.MathProblem;
-
 public class ServerThread implements Runnable {
-	
+
 	public static final String GET_WORK = "GET WORK";
 	public static final String PUT_ANSWER = "PUT ANSWER";
 	public static final String AMP_WORK = "AMP WORK";
 	public static final String AMP_NONE = "AMP NONE";
 	public static final String AMP_OK = "AMP OK";
 	public static final String AMP_ERROR = "AMP ERROR";
-	
-	Socket client;
 
-	public ServerThread(Socket c) {
+	Socket client;
+	int nwork;
+
+	public ServerThread(Socket c, int n) {
 		client = c;
+		nwork = n;
 	}
 
 	@Override
@@ -84,19 +84,20 @@ public class ServerThread implements Runnable {
 					}
 				}
 
-				client.close();
 				System.out.println("---- END: " + correct + " OF " + nwork + " CORRECT RESPONSES ----");
 				break;
 			}
-		} catch (SocketException ex) {
+		} catch (IOException ex) {
 			// only get here if something went wrong
 			System.out.println("EXCEPTION: " + ex.getMessage());
 		} finally {
-			if (server != null) {
-				server.close();
-			}
 			if (client != null) {
-				client.close();
+				try {
+					client.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -104,14 +105,22 @@ public class ServerThread implements Runnable {
 	public static void main(String[] args) {
 		ServerSocket server = null;
 		try {
-			server = new ServerSocket(10780);
+			server = new ServerSocket(Integer.parseInt(args[0]));
 
 			while (true) {
 				Socket client = server.accept();
-				(new Thread(new ServerThread(client))).start();
+				(new Thread(new ServerThread(client, Integer.parseInt(args[1])))).start();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			if(server != null){
+				try {
+					server.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 }
