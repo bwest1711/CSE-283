@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 
 public class ServerThread implements Runnable {
 
@@ -20,7 +19,7 @@ public class ServerThread implements Runnable {
 	Socket client;
 	int nwork;
 
-	public ServerThread(Socket c, int n) {
+	ServerThread(Socket c, int n) {
 		client = c;
 		nwork = n;
 	}
@@ -28,6 +27,7 @@ public class ServerThread implements Runnable {
 	@Override
 	public void run() {
 		try {
+			// loop "forever":
 			while (true) {
 				// and build the reader and writer:
 				PrintWriter out = new PrintWriter(client.getOutputStream(), true);
@@ -84,18 +84,17 @@ public class ServerThread implements Runnable {
 					}
 				}
 
+				client.close();
 				System.out.println("---- END: " + correct + " OF " + nwork + " CORRECT RESPONSES ----");
 				break;
 			}
 		} catch (IOException ex) {
-			// only get here if something went wrong
 			System.out.println("EXCEPTION: " + ex.getMessage());
 		} finally {
 			if (client != null) {
 				try {
 					client.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -114,7 +113,7 @@ public class ServerThread implements Runnable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			if(server != null){
+			if (server != null) {
 				try {
 					server.close();
 				} catch (IOException e) {
