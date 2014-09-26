@@ -15,6 +15,9 @@ public class ServerThread implements Runnable {
 	public static final String AMP_NONE = "AMP NONE";
 	public static final String AMP_OK = "AMP OK";
 	public static final String AMP_ERROR = "AMP ERROR";
+	public static final String GET_STATUS = "GET STATUS";
+	public static final String AMP_STATUS = "AMP STATUS";
+	public static final String END_SESSION = "END SESSION";
 
 	Socket client;
 	int nwork;
@@ -60,7 +63,6 @@ public class ServerThread implements Runnable {
 						} else { // all done; tell the client we're out of work:
 							System.out.println("  RESPONSE: NONE");
 							out.println(AMP_NONE);
-							break;
 						}
 					} else if (line.startsWith(PUT_ANSWER)) { // client is sending an answer:
 						// read the client's answer (use "in"):
@@ -77,6 +79,17 @@ public class ServerThread implements Runnable {
 
 						// respond with OK (use "out"):
 						out.println(AMP_OK);
+					} else if (line.startsWith(GET_STATUS)) {
+						out.println(AMP_STATUS);
+						String status = "THREADS: ";
+						status += Thread.activeCount();
+						status += ", CORRECT: ";
+						status += correct;
+						status += ", INOCRRECT: ";
+						status += nwork - correct;
+						out.println(status);
+					} else if (line.startsWith(END_SESSION)) {
+						client.close();
 					} else {
 						// garbled input from the client; respond with AMP_ERROR (use "out"):
 						out.println(AMP_ERROR);
@@ -84,7 +97,6 @@ public class ServerThread implements Runnable {
 					}
 				}
 
-				client.close();
 				System.out.println("---- END: " + correct + " OF " + nwork + " CORRECT RESPONSES ----");
 				break;
 			}
