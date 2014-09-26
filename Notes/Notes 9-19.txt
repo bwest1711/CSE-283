@@ -1,6 +1,5 @@
 Thread - Independent execution context
 
-
 public class ServerThread implements Runnable {
 	Socket client;
 	
@@ -29,4 +28,4 @@ public class ServerThread implements Runnable {
 	}
 }
 
-Thread.numberThreads
+Thread.activeCount

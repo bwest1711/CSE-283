@@ -1,0 +1,7 @@
+Thread
+	- executes
+	- shares memory with process
+	- light weight
+Process ~ OS
+	- multiple threads
+	- separate memory space
