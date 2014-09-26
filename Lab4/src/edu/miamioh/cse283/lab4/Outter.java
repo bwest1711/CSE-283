@@ -29,7 +29,6 @@ public class Outter {
 		public ServerThread(Socket c, int n) {
 			client = c;
 			nwork = n;
-			incTotal(n);
 		}
 
 		@Override
@@ -77,9 +76,11 @@ public class Outter {
 							if (expectedAns == Double.parseDouble(answer)) {
 								System.out.println("  CORRECT");
 								increment();
+								incTotal();
 								cor++;
 							} else {
 								System.out.println("  INCORRECT");
+								incTotal();
 							}
 							System.out.println("  RESPONSE: OK");
 
@@ -127,8 +128,8 @@ public class Outter {
 		correct++;
 	}
 
-	public synchronized void incTotal(int n) {
-		total += n;
+	public synchronized void incTotal() {
+		total++;
 	}
 
 	public synchronized int getCorrect() {
