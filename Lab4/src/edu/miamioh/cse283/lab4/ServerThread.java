@@ -90,7 +90,7 @@ public class ServerThread implements Runnable {
 						out.println(status);
 					} else if (line.startsWith(END_SESSION)) {
 						continue;
-						//client.close();
+						// client.close();
 					} else {
 						// garbled input from the client; respond with AMP_ERROR (use "out"):
 						out.println(AMP_ERROR);
@@ -114,13 +114,15 @@ public class ServerThread implements Runnable {
 			}
 		}
 	}
-	public synchronized void increment(){
+
+	public synchronized void increment() {
 		correct++;
 	}
-	
-	public synchronized int getCorrect(){
+
+	public synchronized int getCorrect() {
 		return this.correct;
 	}
+
 	public static void main(String[] args) {
 		ServerSocket server = null;
 		try {
