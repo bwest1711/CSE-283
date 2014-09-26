@@ -9,6 +9,7 @@ import java.net.Socket;
 
 public class Outter {
 	private int correct = 0;
+	private int total = 0;
 
 	public class ServerThread implements Runnable {
 
@@ -28,6 +29,7 @@ public class Outter {
 		public ServerThread(Socket c, int n) {
 			client = c;
 			nwork = n;
+			incTotal(n);
 		}
 
 		@Override
@@ -38,7 +40,8 @@ public class Outter {
 					// and build the reader and writer:
 					PrintWriter out = new PrintWriter(client.getOutputStream(), true);
 					BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-
+					
+					int cor = 0;
 					String line;
 					Double expectedAns = 0.0;
 					int count = 0;
@@ -74,6 +77,7 @@ public class Outter {
 							if (expectedAns == Double.parseDouble(answer)) {
 								System.out.println("  CORRECT");
 								increment();
+								cor++;
 							} else {
 								System.out.println("  INCORRECT");
 							}
@@ -88,7 +92,7 @@ public class Outter {
 							status += ", CORRECT: ";
 							status += getCorrect();
 							status += ", INCORRECT: ";
-							status += nwork - getCorrect();
+							status += total - getCorrect();
 							out.println(status);
 						} else if (line.startsWith(END_SESSION)) {
 							continue;
@@ -100,7 +104,7 @@ public class Outter {
 						}
 					}
 
-					System.out.println("---- END: " + getCorrect() + " OF " + nwork + " CORRECT RESPONSES ----");
+					System.out.println("---- END: " + cor + " OF " + nwork + " CORRECT RESPONSES ----");
 					break;
 				}
 			} catch (IOException ex) {
@@ -121,6 +125,10 @@ public class Outter {
 
 	public synchronized void increment() {
 		correct++;
+	}
+
+	public synchronized void incTotal(int n) {
+		total += n;
 	}
 
 	public synchronized int getCorrect() {
