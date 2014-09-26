@@ -81,7 +81,7 @@ public class ServerThread implements Runnable {
 						out.println(AMP_OK);
 					} else if (line.startsWith(GET_STATUS)) {
 						out.println(AMP_STATUS);
-						String status = "THREADS: ";
+						String status = "  THREADS: ";
 						status += Thread.activeCount();
 						status += ", CORRECT: ";
 						status += correct;
@@ -89,7 +89,8 @@ public class ServerThread implements Runnable {
 						status += nwork - correct;
 						out.println(status);
 					} else if (line.startsWith(END_SESSION)) {
-						client.close();
+						continue;
+						//client.close();
 					} else {
 						// garbled input from the client; respond with AMP_ERROR (use "out"):
 						out.println(AMP_ERROR);
@@ -102,6 +103,7 @@ public class ServerThread implements Runnable {
 			}
 		} catch (IOException ex) {
 			System.out.println("EXCEPTION: " + ex.getMessage());
+			ex.printStackTrace();
 		} finally {
 			if (client != null) {
 				try {
