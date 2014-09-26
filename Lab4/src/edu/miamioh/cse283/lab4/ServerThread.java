@@ -19,8 +19,9 @@ public class ServerThread implements Runnable {
 	public static final String AMP_STATUS = "AMP STATUS";
 	public static final String END_SESSION = "END SESSION";
 
-	Socket client;
-	int nwork;
+	private int correct = 0;
+	private Socket client;
+	private int nwork;
 
 	ServerThread(Socket c, int n) {
 		client = c;
@@ -39,7 +40,6 @@ public class ServerThread implements Runnable {
 				String line;
 				Double expectedAns = 0.0;
 				int count = 0;
-				int correct = 0;
 
 				// loop while we are able to read lines from the client
 				// (this is a safeguard against a client that terminates early):
@@ -71,7 +71,7 @@ public class ServerThread implements Runnable {
 						// if the client's answer matches our expected answer:
 						if (expectedAns == Double.parseDouble(answer)) {
 							System.out.println("  CORRECT");
-							++correct;
+							increment();
 						} else {
 							System.out.println("  INCORRECT");
 						}
@@ -84,9 +84,9 @@ public class ServerThread implements Runnable {
 						String status = "  THREADS: ";
 						status += Thread.activeCount();
 						status += ", CORRECT: ";
-						status += correct;
-						status += ", INOCRRECT: ";
-						status += nwork - correct;
+						status += getCorrect();
+						status += ", INCORRECT: ";
+						status += nwork - getCorrect();
 						out.println(status);
 					} else if (line.startsWith(END_SESSION)) {
 						continue;
@@ -98,7 +98,7 @@ public class ServerThread implements Runnable {
 					}
 				}
 
-				System.out.println("---- END: " + correct + " OF " + nwork + " CORRECT RESPONSES ----");
+				System.out.println("---- END: " + getCorrect() + " OF " + nwork + " CORRECT RESPONSES ----");
 				break;
 			}
 		} catch (IOException ex) {
@@ -114,7 +114,13 @@ public class ServerThread implements Runnable {
 			}
 		}
 	}
-
+	public synchronized void increment(){
+		correct++;
+	}
+	
+	public synchronized int getCorrect(){
+		return this.correct;
+	}
 	public static void main(String[] args) {
 		ServerSocket server = null;
 		try {
