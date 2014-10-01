@@ -1,0 +1,26 @@
+HTTP
+	AJAX
+	
+FTP
+	Active vs. Passive
+	unprivileged port
+	Active - for non firewalls
+	Passive - client controls everything
+		- Not a secure way to transfer
+	Runs on top of TCP
+		- App layer
+	Differences
+	two parallel TCP connections
+		- controls
+			- server port 21
+			- handles all communication
+			- connection remains constant
+		- data
+			- server port 20
+				- sends to specific client port
+			- opens and closes for each file being sent
+	holds states
+	always requests user name and password
+	no encryption in basic ftp
+	
+	
