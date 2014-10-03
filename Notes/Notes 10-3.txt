@@ -1,0 +1,54 @@
+Exam Review
+
+Ch. 1-3
+	- Specifically the sections in the syllabus
+	- And programming problems
+
+Solutions for lab 1-4 are posted
+	
+Chapter 1
+	- Physical media - listed in chapter 1
+		- Broadly what different types there are
+	- Be able to explain circuit switching v. packet switching
+		- Why?
+	- 4 types of delays
+		- identify
+			- Processing
+			- Queueing
+			- Transmission
+				- How quickly you can write bytes to a channel
+			- Propagation
+				- Distance being sent
+	- network -> application
+		- protocol layers (IP)
+		- where in the stack do applications fit
+	- Why protocols are so useful
+
+Chapter 2
+	- Application protocols(HTTP, SMTP, FTP, DNS)
+		- Be able to explain each does
+		- What the are based on (TCP or UDP)
+		- Basic architecture
+			- One computer v. widely distributed
+	- Client server architecture v. p2p
+		- being able to identify the differences
+		- who initiates the connection
+	- UDP and TCP
+		- User datagram packets
+		- Transmission
+
+Chapter 3
+	- UDP and TCP
+		- The book covers TCP well
+		- Understand how to program in both UDP and TCP
+			- Understand how TCP handles reliable data transfer
+	- Reliable data transfer
+		- Sequence numbers v. acknowledgements
+
+Programming
+	- Labs 1-4 are fair
+		- Not specifically about the lab
+			- More about the structure
+			- Be able to explain what is happening
+		- Shown code, can we finish it/ can we find bugs
+	
