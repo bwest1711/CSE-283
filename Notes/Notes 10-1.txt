@@ -2,13 +2,13 @@ HTTP
 	AJAX
 	
 FTP
-	Active vs. Passive
+	Active v. Passive
 	unprivileged port
 	Active - for non firewalls
 	Passive - client controls everything
 		- Not a secure way to transfer
 	Runs on top of TCP
-		- App layer
+		- Application layer
 	Differences
 	two parallel TCP connections
 		- controls
@@ -22,5 +22,16 @@ FTP
 	holds states
 	always requests user name and password
 	no encryption in basic ftp
-	
-	
+
+SMTP (Simple Mail Transfer Protocol)
+	- 1980s -> upgraded to Extended SMTP in 2008
+	MUA -> MSA -> MTA -> MX -> MDA
+		Mail User
+		 "	 Switch
+		 "	 Transfer
+		 "	 Exchanger
+		 "	 Delivery
+	- Port 25/465
+
+DNS (Domain Name System)
+	- translates host names to IP addresses
