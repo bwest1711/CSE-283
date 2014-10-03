@@ -17,4 +17,4 @@ Socket - IP and Port
 	- What is it doing at the OS level
 		 - Allocating resources that can be used for communication
 			- Send and receive buffers
-	- What lets an application talk to	any other application
+	- What lets an application talk to any other application

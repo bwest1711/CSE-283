@@ -51,4 +51,20 @@ Programming
 			- More about the structure
 			- Be able to explain what is happening
 		- Shown code, can we finish it/ can we find bugs
-	
+		- Know what is a blocking call
+		- InetAddress
+			- What is it?
+			- How does it use DNS?
+	Lab 2
+		- Packet loss
+			- How we dealt with it.
+	Lab 3
+		- out.println() == out.print() + out.print("\n") + out.flush()
+			- flushes the output stream
+		- in.readLine()
+			- blocking call
+	Lab 4
+		- Things got interesting
+		- High level multi threading
+			- Why we care about it.
+		
