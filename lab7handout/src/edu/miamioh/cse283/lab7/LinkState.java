@@ -9,16 +9,17 @@ import java.util.Arrays;
  */
 public class LinkState {
 
-	/** The link state matrix of distances.
+	/**
+	 * The link state matrix of distances.
 	 * 
-	 * M[i][j] is the cost of the link from node i to node j. 
+	 * M[i][j] is the cost of the link from node i to node j.
 	 */
 	protected double[][] M;
 
 	/** Constructor. */
 	public LinkState(int n) {
 		M = new double[n][];
-		for(int i=0; i<n; ++i) {
+		for (int i = 0; i < n; ++i) {
 			M[i] = new double[n];
 			Arrays.fill(M[i], Double.POSITIVE_INFINITY);
 		}
@@ -36,16 +37,29 @@ public class LinkState {
 	 * Runs Dijkstra's algorithm on the distance matrix M.
 	 */
 	public void calculate_shortest_paths() {
-		// your code goes here.
+		for(int i = 0; i < M.length; i++){
+			M[i][i] = 0;
+		}
+		
+		//All Pairs Shortest Path Algorithm
+		for (int i = 0; i < M.length - 1; i++) {
+			for (int j = 0; j < M.length - 1; j++) {
+				for (int k = 0; k < M.length - 1; k++) {
+					if(M[j][k] > M[j][i] + M[i][k]){
+						M[j][k] = M[j][i] + M[i][k];
+					}
+				}
+			}
+		}
 	}
 
 	/**
 	 * Prints out the distance matrix M.
 	 */
 	public void print() {
-		for(int i=0; i<M.length; ++i) {
-			for(int j=0; j<M.length; ++j) {
-				if(M[i][j] == Double.POSITIVE_INFINITY) {
+		for (int i = 0; i < M.length; ++i) {
+			for (int j = 0; j < M.length; ++j) {
+				if (M[i][j] == Double.POSITIVE_INFINITY) {
 					System.out.print("*    ");
 				} else {
 					System.out.printf("%-4.1f ", M[i][j]);
@@ -70,5 +84,5 @@ public class LinkState {
 		System.out.println("Shortest paths:");
 		ls.calculate_shortest_paths();
 		ls.print();
-	}	
+	}
 }
