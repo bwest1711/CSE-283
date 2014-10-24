@@ -36,11 +36,7 @@ public class LinkState {
 	/**
 	 * Runs Dijkstra's algorithm on the distance matrix M.
 	 */
-	public void calculate_shortest_paths() {
-		for(int i = 0; i < M.length; i++){
-			M[i][i] = 0;
-		}
-		
+	public void calculate_shortest_paths() {		
 		//All Pairs Shortest Path Algorithm
 		for (int i = 0; i < M.length - 1; i++) {
 			for (int j = 0; j < M.length - 1; j++) {
