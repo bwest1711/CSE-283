@@ -100,16 +100,23 @@ public class LinkState {
 	 * Main method.
 	 */
 	public static void main(String[] args) {
-		LinkState ls = new LinkState(4);
+		LinkState ls = new LinkState(6);
+		
 		ls.link(0, 1, 2.0);
-		ls.link(0, 2, 3.0);
-		ls.link(0, 3, 1.0);
-
-		ls.link(1, 2, 3.0);
-		ls.link(1, 3, 1.0);
-
-		ls.link(2, 3, 1.0);
-
+		ls.link(0, 2, 1.0);
+		ls.link(0, 3, 5.0);
+		
+		ls.link(1, 2, 2.0);
+		ls.link(1, 3, 3.0);
+		
+		ls.link(2, 3, 3.0);
+		ls.link(2, 4, 1.0);
+		
+		ls.link(3, 4, 1.0);
+		ls.link(3, 5, 5.0);
+		
+		ls.link(4, 5, 2.0);
+		
 		System.out.println("Initial cost matrix:");
 		ls.print();
 
