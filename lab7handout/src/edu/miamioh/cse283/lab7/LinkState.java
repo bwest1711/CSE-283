@@ -22,6 +22,7 @@ public class LinkState {
 		for (int i = 0; i < n; ++i) {
 			M[i] = new double[n];
 			Arrays.fill(M[i], Double.POSITIVE_INFINITY);
+			M[i][i] = 0;
 		}
 	}
 
@@ -36,13 +37,13 @@ public class LinkState {
 	/**
 	 * Runs Dijkstra's algorithm on the distance matrix M.
 	 */
-	public void calculate_shortest_paths() {		
-		//All Pairs Shortest Path Algorithm
-		for (int i = 0; i < M.length - 1; i++) {
-			for (int j = 0; j < M.length - 1; j++) {
-				for (int k = 0; k < M.length - 1; k++) {
-					if(M[j][k] > M[j][i] + M[i][k]){
-						M[j][k] = M[j][i] + M[i][k];
+	public void calculate_shortest_paths() {
+		// All Pairs Shortest Path Algorithm
+		for (int k = 0; k < M.length; k++) {
+			for (int i = 0; i < M.length; i++) {
+				for (int j = 0; j < M.length; j++) {
+					if (M[i][j] > M[i][k] + M[k][j]) {
+						M[i][j] = M[i][k] + M[k][j];
 					}
 				}
 			}
