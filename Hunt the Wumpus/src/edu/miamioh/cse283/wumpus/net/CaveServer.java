@@ -2,7 +2,7 @@ package edu.miamioh.cse283.wumpus.net;
 
 import java.net.InetAddress;
 
-public class CaveServer extends Server{
+public class CaveServer {
 	/**
 	 * Networking code
 	 * 
