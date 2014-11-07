@@ -76,6 +76,9 @@ public class Client {
 	}
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
+		System.out.println("Starting Client");
+		System.out.println("  Client: args[0] = " + args[0]);
+		System.out.println("  Client: args[1] = " + args[1]);
 		Client c = new Client();
 		c.run(InetAddress.getByName(args[0]), Integer.parseInt(args[1]));
 	}

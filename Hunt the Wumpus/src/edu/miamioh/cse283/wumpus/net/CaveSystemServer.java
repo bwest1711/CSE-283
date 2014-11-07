@@ -52,6 +52,8 @@ public class CaveSystemServer {
 	}
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
+		System.out.println("Starting CaveSystemServer");
+		System.out.println("  CSS: args[0] = " + args[0]);
 		CaveSystemServer s = new CaveSystemServer();
 		s.run(Integer.parseInt(args[0]));
 	}
