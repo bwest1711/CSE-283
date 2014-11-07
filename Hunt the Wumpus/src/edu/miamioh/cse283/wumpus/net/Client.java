@@ -7,12 +7,17 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 
+import edu.miamioh.cse283.wumpus.Player;
+
 public class Client {
 
 	/** Socket for communication */
 	protected Socket server;
 	/** Current cave connected to Client */
 	protected Socket cave;
+
+	/** The player */
+	protected Player player;
 
 	/** Input stream */
 	protected BufferedReader in;
@@ -46,7 +51,6 @@ public class Client {
 		getStreams(cave);
 
 		System.out.println(in.readLine());
-
 	}
 
 	/**
@@ -68,7 +72,7 @@ public class Client {
 
 		// Get new streams based on the socket.
 		in = new BufferedReader(new InputStreamReader(s.getInputStream()));
-		out = new PrintWriter(s.getOutputStream());
+		out = new PrintWriter(s.getOutputStream(), true);
 	}
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
