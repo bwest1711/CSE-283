@@ -21,6 +21,8 @@ public class CaveSystemServer {
 				// next addr == localhost
 				// next port == portbase + 1
 				PrintWriter out = new PrintWriter(client.getOutputStream(), true);
+				
+				// Send the info back to the Client
 				out.println("localhost");
 				out.println("" + 1235);
 			} catch (IOException e) {
@@ -46,7 +48,6 @@ public class CaveSystemServer {
 
 			// Create a new thread and pass our client
 			(new Thread(new ServerThread(client))).start();
-
 		}
 	}
 

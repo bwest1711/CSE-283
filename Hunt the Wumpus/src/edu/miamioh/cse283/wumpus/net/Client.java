@@ -11,9 +11,12 @@ public class Client {
 
 	/** Socket for communication */
 	protected Socket server;
+	/** Current cave connected to Client */
 	protected Socket cave;
-	
+
+	/** Input stream */
 	protected BufferedReader in;
+	/** Output stream */
 	protected PrintWriter out;
 
 	/**
@@ -28,17 +31,20 @@ public class Client {
 	public void run(InetAddress addr, int port) throws IOException {
 		server = new Socket(addr, port);
 		getStreams(server);
-		
+
+		// IP and Port from CSS
 		InetAddress caveAddr = InetAddress.getByName(in.readLine());
 		int cavePort = Integer.parseInt(in.readLine());
-		
-		System.out.println("Got shit from the CaveSystemServer");
 
+		System.out.println("Connecting to: " + caveAddr);
+		System.out.println("      On Port: " + cavePort);
+
+		// Close connection to CSS
 		server.close();
 
 		cave = new Socket(caveAddr, cavePort);
 		getStreams(cave);
-		
+
 		System.out.println(in.readLine());
 
 	}
@@ -46,44 +52,23 @@ public class Client {
 	/**
 	 * Gets the input and output streams for the given socket.
 	 * 
-	 * @param s the socket to get the streams for
-	 * @throws IOException 
+	 * @param s
+	 *            the socket to get the streams for
+	 * @throws IOException
 	 */
 	private void getStreams(Socket s) throws IOException {
-		if(in != null){
+		// Make sure to close old streams
+		if (in != null) {
 			in.close();
 		}
-		
-		if(out != null){
+
+		if (out != null) {
 			out.close();
 		}
-		
+
+		// Get new streams based on the socket.
 		in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 		out = new PrintWriter(s.getOutputStream());
-	}
-
-	/**
-	 * Connect this client to the server.
-	 * 
-	 * @param addr
-	 *            is the address for the server.
-	 * @param port
-	 *            is the port number for the server.
-	 */
-	public void connect(InetAddress addr, int port) {
-
-	}
-
-	/**
-	 * Hands off the client to a new (different) server.
-	 * 
-	 * @param addr
-	 *            is the address for the server.
-	 * @param port
-	 *            is the port number for the server.
-	 */
-	public void handoff(InetAddress addr, int port) {
-
 	}
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
