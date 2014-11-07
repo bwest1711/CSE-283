@@ -60,7 +60,7 @@ public class CaveServer {
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		System.out.println("Starting CaveServer");
-		System.out.println("  CaveServer: args[0] = " + args[0]);
+		System.out.println("  CaveServer:  args[0] = " + args[0]);
 		CaveServer s = new CaveServer();
 		s.run(Integer.parseInt(args[0]));
 	}
