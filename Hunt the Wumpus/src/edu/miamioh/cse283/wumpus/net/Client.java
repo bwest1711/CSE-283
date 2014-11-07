@@ -1,6 +1,9 @@
 package edu.miamioh.cse283.wumpus.net;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 
@@ -8,6 +11,10 @@ public class Client {
 
 	/** Socket for communication */
 	protected Socket server;
+	protected Socket cave;
+	
+	protected BufferedReader in;
+	protected PrintWriter out;
 
 	/**
 	 * Runs the game
@@ -20,7 +27,39 @@ public class Client {
 	 */
 	public void run(InetAddress addr, int port) throws IOException {
 		server = new Socket(addr, port);
-		System.out.println("Something happened.");
+		getStreams(server);
+		
+		InetAddress caveAddr = InetAddress.getByName(in.readLine());
+		int cavePort = Integer.parseInt(in.readLine());
+		
+		System.out.println("Got shit from the CaveSystemServer");
+
+		server.close();
+
+		cave = new Socket(caveAddr, cavePort);
+		getStreams(cave);
+		
+		System.out.println(in.readLine());
+
+	}
+
+	/**
+	 * Gets the input and output streams for the given socket.
+	 * 
+	 * @param s the socket to get the streams for
+	 * @throws IOException 
+	 */
+	private void getStreams(Socket s) throws IOException {
+		if(in != null){
+			in.close();
+		}
+		
+		if(out != null){
+			out.close();
+		}
+		
+		in = new BufferedReader(new InputStreamReader(s.getInputStream()));
+		out = new PrintWriter(s.getOutputStream());
 	}
 
 	/**

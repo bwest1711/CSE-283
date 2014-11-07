@@ -1,32 +1,53 @@
 package edu.miamioh.cse283.wumpus.net;
 
-import java.net.InetAddress;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 public class CaveServer {
-	/**
-	 * Networking code
-	 * 
-	 * send description --> client
-	 * recv actions from clients
-	 */
-	
-	/**
-	 * Sends a description to the client.
-	 * 
-	 * @param desc the description being sent
-	 * @param addr the address of the client.
-	 * @param port the port of the client.
-	 */
-	public void sendDescription(String desc, InetAddress addr, int port){
-		
+	/** Inner class to handle multiple threads */
+	public class CaveThread implements Runnable {
+		protected Socket client;
+
+		public CaveThread(Socket client) {
+			this.client = client;
+		}
+
+		@Override
+		public void run() {
+			try {
+				PrintWriter out = new PrintWriter(client.getOutputStream(), true);
+				out.println("Thank god you're here!");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
-	
+
+	protected ServerSocket clientSocket;
+
 	/**
-	 * Receives actions from the server
+	 * Run from a non static context.
 	 * 
-	 * @param action the action to be performed.
+	 * @param portBase
+	 * @throws IOException
+	 *             temporary until we change to try-catch
 	 */
-	public void getAction(String action){
-		
+	public void run(int portBase) throws IOException {
+		clientSocket = new ServerSocket(portBase);
+
+		while (true) {
+			Socket client = clientSocket.accept();
+
+			// Create a new thread and pass our client
+			(new Thread(new CaveThread(client))).start();
+
+		}
+	}
+
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		CaveServer s = new CaveServer();
+		s.run(Integer.parseInt(args[0]));
 	}
 }
