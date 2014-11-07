@@ -50,7 +50,11 @@ public class Client {
 		cave = new Socket(caveAddr, cavePort);
 		getStreams(cave);
 
-		System.out.println(in.readLine());
+		String input;
+
+		while ((input = in.readLine()) != null) {
+			System.out.println(input);
+		}
 	}
 
 	/**
