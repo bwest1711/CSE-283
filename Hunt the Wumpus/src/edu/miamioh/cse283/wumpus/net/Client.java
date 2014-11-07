@@ -1,16 +1,22 @@
 package edu.miamioh.cse283.wumpus.net;
 
+import java.io.IOException;
 import java.net.InetAddress;
+import java.net.Socket;
 
 public class Client {
+	
+	protected Socket server;
+	
 	/**
-	 * Plays the game
-	 * 
-	 * @param args - Holds the address and port number for 
-	 * the CaveSystemServer this client will connect to
+	 * Runs the game
+	 * @param addr the ip address of the server
+	 * @param port the port number of the server
+	 * @throws IOException 
 	 */
-	public void run(String[] args){
-		
+	public void run(InetAddress addr, int port) throws IOException{
+		server = new Socket(addr, port);
+		System.out.println("Something happened.");		
 	}
 	
 	/**
@@ -33,8 +39,9 @@ public class Client {
 		
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws NumberFormatException, IOException {
 		Client c = new Client();
-		c.run(args);
+		c.run(InetAddress.getByName(args[0]),
+				Integer.parseInt(args[1]));
 	}
 }
