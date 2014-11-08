@@ -50,6 +50,7 @@ public class Client {
 		// Close connection to CSS
 		server.close();
 
+		// Start connecting to the Cave Server
 		cave = new Socket(caveAddr, cavePort);
 		getStreams(cave);
 
@@ -57,13 +58,18 @@ public class Client {
 
 		String input, output;
 
+		// Handle input/output from the user/server
+		// Server currently leads with single message that tells how many lines are coming
 		while ((input = in.readLine()) != null) {
-			int num = Integer.parseInt(input);
+			int num = Integer.parseInt(input); // How many lines
+			
+			// Read in from the server the specified number of lines
 			for (int i = 0; i < num; i++) {
 				input = in.readLine();
-				System.out.println("[Client] " + input);
+				System.out.println("[Server] - " + input);
 			}
-			System.out.println("[Client] - Waiting for input");
+			
+			System.out.print("[Client] - ");
 			if ((output = scanner.nextLine()) != null) {
 				out.println(output);
 			}
@@ -71,11 +77,12 @@ public class Client {
 	}
 
 	/**
-	 * Gets the input and output streams for the given socket.
+	 * Gets the input and output streams for the given socket. Assumes the connection to the socket has been connected
 	 * 
 	 * @param s
 	 *            the socket to get the streams for
 	 * @throws IOException
+	 *             if the socket is not connected, there will not be and input or output stream
 	 */
 	private void getStreams(Socket s) throws IOException {
 		// Make sure to close old streams
