@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.Scanner;
 
 import edu.miamioh.cse283.wumpus.Player;
 
@@ -23,6 +24,8 @@ public class Client {
 	protected BufferedReader in;
 	/** Output stream */
 	protected PrintWriter out;
+	/** Scanner for player input */
+	protected Scanner scanner = new Scanner(System.in);
 
 	/**
 	 * Runs the game
@@ -50,10 +53,20 @@ public class Client {
 		cave = new Socket(caveAddr, cavePort);
 		getStreams(cave);
 
-		String input;
+		player = new Player();
+
+		String input, output;
 
 		while ((input = in.readLine()) != null) {
-			System.out.println(input);
+			int num = Integer.parseInt(input);
+			for (int i = 0; i < num; i++) {
+				input = in.readLine();
+				System.out.println("[Client] " + input);
+			}
+			System.out.println("[Client] - Waiting for input");
+			if ((output = scanner.nextLine()) != null) {
+				out.println(output);
+			}
 		}
 	}
 
