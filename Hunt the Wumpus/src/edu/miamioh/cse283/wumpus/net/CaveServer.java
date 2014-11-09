@@ -6,10 +6,14 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+
+import edu.miamioh.cse283.wumpus.Room;
 
 public class CaveServer {
 	/** Inner class to handle multiple threads */
 	public class CaveThread implements Runnable {
+		protected ArrayList<Room> rooms;
 		protected Socket client;
 		private final String startMessage = "6\n   _____  _                 _                   _                    _            _                    _ \n"
 				+ "  |_   _|| |_   __ _  _ _  | |__  __ _  ___  __| |  _  _  ___  _  _ ( )_ _  ___  | |_   ___  _ _  ___ | |\n"
@@ -19,6 +23,7 @@ public class CaveServer {
 
 		public CaveThread(Socket client) {
 			this.client = client;
+			rooms = new ArrayList<Room>();
 		}
 
 		@Override
