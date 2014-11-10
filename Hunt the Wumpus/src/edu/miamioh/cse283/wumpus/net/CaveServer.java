@@ -13,28 +13,47 @@ import edu.miamioh.cse283.wumpus.Room;
 public class CaveServer {
 	/** Inner class to handle multiple threads */
 	public class CaveThread implements Runnable {
+
+		/** The list of rooms */
 		protected ArrayList<Room> rooms;
+
+		/** Connection to the player */
 		protected Socket client;
+
+		/** The message that is displayed when a player enters the cave */
 		private final String startMessage = "   _____  _                 _                   _                    _            _                    _ \n"
 				+ "  |_   _|| |_   __ _  _ _  | |__  __ _  ___  __| |  _  _  ___  _  _ ( )_ _  ___  | |_   ___  _ _  ___ | |\n"
 				+ "    | |  | ' \\ / _` || ' \\ | / / / _` |/ _ \\/ _` | | || |/ _ \\| || ||/| '_|/ -_) | ' \\ / -_)| '_|/ -_)|_|\n"
 				+ "    |_|  |_||_|\\__,_||_||_||_\\_\\ \\__, |\\___/\\__,_|  \\_, |\\___/ \\_,_|  |_|  \\___| |_||_|\\___||_|  \\___|(_)\n"
-				+ "                                 |___/              |__/                                                 \n\n" 
-				+ " SHOOT - shoots an arrow\n" 
-				+ "PICKUP - picks up whatever gold/arrows are on the ground\n" 
-				+ " CLIMB - climbs the ladder to exit the cave\n"
+				+ "                                 |___/              |__/                                                 \n\n" + " SHOOT - shoots an arrow\n"
+				+ "PICKUP - picks up whatever gold/arrows are on the ground\n" + " CLIMB - climbs the ladder to exit the cave\n"
 				+ "  MOVE - followed by a number to move to a different room\n";
 
+		/**
+		 * Creates a new instance of the cave system.
+		 * 
+		 * @param client
+		 *            the socket connected to the client
+		 */
 		public CaveThread(Socket client) {
 			this.client = client;
 			init();
-			rooms = new ArrayList<Room>();
 		}
 
 		private void init() {
-
+			rooms = new ArrayList<Room>();
+			for(int i = 0; i < 20; i++){
+				Room temp = new Room(i, false, false);
+				rooms.add(temp);
+			}
 		}
 
+		/**
+		 * Determine how many lines a string contains.
+		 * 
+		 * @param message
+		 * @return number of lines
+		 */
 		private int getNumLines(String message) {
 			char[] c = message.toCharArray();
 			int toReturn = 1;

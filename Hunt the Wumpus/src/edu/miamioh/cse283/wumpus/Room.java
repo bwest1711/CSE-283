@@ -1,10 +1,12 @@
 package edu.miamioh.cse283.wumpus;
 
 public class Room {
+	private final int id;
 	private boolean hasGold, hasWumpus, hasPlayer;
 	private final boolean hasBats, hasPit;
 
-	public Room(boolean hasBats, boolean hasPit) {
+	public Room(int id, boolean hasBats, boolean hasPit) {
+		this.id = id;
 		this.hasBats = hasBats;
 		this.hasPit = hasPit;
 	}
@@ -39,5 +41,9 @@ public class Room {
 
 	public boolean hasPit() {
 		return hasPit;
+	}
+
+	public int getId() {
+		return id;
 	}
 }
