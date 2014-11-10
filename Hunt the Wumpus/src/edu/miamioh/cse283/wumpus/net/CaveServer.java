@@ -77,21 +77,22 @@ public class CaveServer {
 
 				String input;
 
+				// Loop for input from user
 				while ((input = in.readLine()) != null) {
 					System.out.println("[Client] " + input);
 					out.println(1);
 					switch (input.toUpperCase().trim()) {
 					case "SHOOT":
-						out.println("You shot me!");
+						out.println("You shot me!"); // This can become Player.shoot(direction)
 						break;
 					case "PICKUP":
-						out.println("You found gold!");
+						out.println("You found gold!"); // Player.pickup();
 						break;
 					case "MOVE":
-						out.println("You moved somewhere!");
+						out.println("You moved somewhere!"); // Player.move(direction)
 						break;
 					case "CLIMB":
-						out.println("You climbed stuff!");
+						out.println("You climbed stuff!"); // Player.climb()
 						break;
 					default:
 						out.println("Not a valid command!");
@@ -100,11 +101,13 @@ public class CaveServer {
 				}
 
 			} catch (IOException e) {
-				e.printStackTrace();
+				System.err.println(e.getMessage());
+				//e.printStackTrace();
 			}
 		}
 	}
 
+	/** Listening Socket for new client connections */
 	protected ServerSocket clientSocket;
 
 	/**
