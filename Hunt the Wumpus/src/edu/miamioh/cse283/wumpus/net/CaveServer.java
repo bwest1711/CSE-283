@@ -15,15 +15,36 @@ public class CaveServer {
 	public class CaveThread implements Runnable {
 		protected ArrayList<Room> rooms;
 		protected Socket client;
-		private final String startMessage = "6\n   _____  _                 _                   _                    _            _                    _ \n"
+		private final String startMessage = "   _____  _                 _                   _                    _            _                    _ \n"
 				+ "  |_   _|| |_   __ _  _ _  | |__  __ _  ___  __| |  _  _  ___  _  _ ( )_ _  ___  | |_   ___  _ _  ___ | |\n"
 				+ "    | |  | ' \\ / _` || ' \\ | / / / _` |/ _ \\/ _` | | || |/ _ \\| || ||/| '_|/ -_) | ' \\ / -_)| '_|/ -_)|_|\n"
 				+ "    |_|  |_||_|\\__,_||_||_||_\\_\\ \\__, |\\___/\\__,_|  \\_, |\\___/ \\_,_|  |_|  \\___| |_||_|\\___||_|  \\___|(_)\n"
-				+ "                                 |___/              |__/                                                 \n";
+				+ "                                 |___/              |__/                                                 \n\n" 
+				+ " SHOOT - shoots an arrow\n" 
+				+ "PICKUP - picks up whatever gold/arrows are on the ground\n" 
+				+ " CLIMB - climbs the ladder to exit the cave\n"
+				+ "  MOVE - followed by a number to move to a different room\n";
 
 		public CaveThread(Socket client) {
 			this.client = client;
+			init();
 			rooms = new ArrayList<Room>();
+		}
+
+		private void init() {
+
+		}
+
+		private int getNumLines(String message) {
+			char[] c = message.toCharArray();
+			int toReturn = 1;
+
+			for (char letter : c) {
+				if (letter == '\n')
+					toReturn++;
+			}
+
+			return toReturn;
 		}
 
 		@Override
@@ -31,14 +52,32 @@ public class CaveServer {
 			try {
 				BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
 				PrintWriter out = new PrintWriter(client.getOutputStream(), true);
-				
+
+				out.println(getNumLines(startMessage));
 				out.println(startMessage);
 
 				String input;
 
 				while ((input = in.readLine()) != null) {
-					System.out.println("[CaveServer] " + input);
-					out.println("1\n" + input);
+					System.out.println("[Client] " + input);
+					out.println(1);
+					switch (input.toUpperCase().trim()) {
+					case "SHOOT":
+						out.println("You shot me!");
+						break;
+					case "PICKUP":
+						out.println("You found gold!");
+						break;
+					case "MOVE":
+						out.println("You moved somewhere!");
+						break;
+					case "CLIMB":
+						out.println("You climbed stuff!");
+						break;
+					default:
+						out.println("Not a valid command!");
+						break;
+					}
 				}
 
 			} catch (IOException e) {

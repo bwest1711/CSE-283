@@ -38,20 +38,25 @@ public class Client {
 	 */
 	public void run(InetAddress addr, int port) throws IOException {
 		server = new Socket(addr, port);
+		System.out.println("Connecting to: " + server.getInetAddress().getHostAddress());
+		System.out.println("      On Port: " + server.getPort());
 		getStreams(server);
 
 		// IP and Port from CSS
 		InetAddress caveAddr = InetAddress.getByName(in.readLine());
 		int cavePort = Integer.parseInt(in.readLine());
 
-		System.out.println("Connecting to: " + caveAddr);
-		System.out.println("      On Port: " + cavePort);
-
 		// Close connection to CSS
+		System.out.println("Disconnecting: " + server.getInetAddress().getHostAddress());
+		System.out.println("    From Port: " + server.getPort());
 		server.close();
+
+		
 
 		// Start connecting to the Cave Server
 		cave = new Socket(caveAddr, cavePort);
+		System.out.println("Connecting to: " + cave.getInetAddress().getHostAddress());
+		System.out.println("      On Port: " + cave.getPort());
 		getStreams(cave);
 
 		player = new Player();
@@ -62,13 +67,13 @@ public class Client {
 		// Server currently leads with single message that tells how many lines are coming
 		while ((input = in.readLine()) != null) {
 			int num = Integer.parseInt(input); // How many lines
-			
+
 			// Read in from the server the specified number of lines
 			for (int i = 0; i < num; i++) {
 				input = in.readLine();
 				System.out.println("[Server] - " + input);
 			}
-			
+
 			System.out.print("[Client] - ");
 			if ((output = scanner.nextLine()) != null) {
 				out.println(output);
