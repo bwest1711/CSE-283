@@ -1,114 +1,81 @@
 package edu.miamioh.cse283.wumpus.net;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.Scanner;
 
-import edu.miamioh.cse283.wumpus.Player;
+import edu.miamioh.cse283.wumpus.net.proxy.CaveProxy;
 
+/**
+ * Client (player) for the Hunt the Wumpus game.
+ * 
+ * The Client class takes the following command-line parameters:
+ * 
+ * <Hostname of CaveSystemServer> <port number of CaveSystemServer>
+ * 
+ * E.g., "localhost 1234"
+ *
+ */
 public class Client {
 
-	/** Socket for communication */
-	protected Socket server;
-	/** Current cave connected to Client */
-	protected Socket cave;
+	/** Proxy object that connects the client to its current cave. */
+	protected CaveProxy cave;
 
-	/** The player */
-	protected Player player;
+	/** Constructor. */
+	public Client(CaveProxy cave) {
+		this.cave = cave;
+	}
 
-	/** Input stream */
-	protected BufferedReader in;
-	/** Output stream */
-	protected PrintWriter out;
-	/** Scanner for player input */
-	protected Scanner scanner = new Scanner(System.in);
+	/** Returns true if the player is still alive. */
+	public synchronized boolean isAlive() {
+		return true;
+	}
 
 	/**
-	 * Runs the game
+	 * Plays the game.
 	 * 
-	 * @param addr
-	 *            the ip address of the server
-	 * @param port
-	 *            the port number of the server
-	 * @throws IOException
+	 * @param args
+	 *            holds address and port number for the CaveSystemServer this client will connect to.
 	 */
-	public void run(InetAddress addr, int port) throws IOException {
-		server = new Socket(addr, port);
-		System.out.println("Connecting to: " + server.getInetAddress().getHostAddress());
-		System.out.println("      On Port: " + server.getPort());
-		getStreams(server);
+	public void run() {
+		try {
+			// all clients initially experience a handoff:
+			cave = cave.handoff();
+			System.out.println(cave.getMessage());
 
-		// IP and Port from CSS
-		InetAddress caveAddr = InetAddress.getByName(in.readLine());
-		int cavePort = Integer.parseInt(in.readLine());
+			// now start the sense and respond loop:
+			while (isAlive()) {
+				System.out.println(cave.getSenses());
 
-		// Close connection to CSS
-		System.out.println("Disconnecting: " + server.getInetAddress().getHostAddress());
-		System.out.println("    From Port: " + server.getPort());
-		server.close();
+				// get an action from the player, and
+				// send it to the cave server.
+				cave.sendAction("move 1");
 
-		
-
-		// Start connecting to the Cave Server
-		cave = new Socket(caveAddr, cavePort);
-		System.out.println("Connecting to: " + cave.getInetAddress().getHostAddress());
-		System.out.println("      On Port: " + cave.getPort());
-		getStreams(cave);
-
-		player = new Player();
-
-		String input, output;
-
-		// Handle input/output from the user/server
-		// Server currently leads with single message that tells how many lines are coming
-		while ((input = in.readLine()) != null) {
-			int num = Integer.parseInt(input); // How many lines
-
-			// Read in from the server the specified number of lines
-			for (int i = 0; i < num; i++) {
-				input = in.readLine();
-				System.out.println("[Server] - " + input);
 			}
 
-			System.out.print("[Client] - ");
-			if ((output = scanner.nextLine()) != null) {
-				out.println(output);
-			}
+		} catch (Exception ex) {
+			// If an exception is thrown, we can't fix it here -- Crash.
+			ex.printStackTrace();
+			System.exit(1);
 		}
 	}
 
 	/**
-	 * Gets the input and output streams for the given socket. Assumes the connection to the socket has been connected
+	 * Main method for clients.
 	 * 
-	 * @param s
-	 *            the socket to get the streams for
-	 * @throws IOException
-	 *             if the socket is not connected, there will not be and input or output stream
+	 * @param args
+	 *            contains the hostname and port number of the server that this client should connect to.
 	 */
-	private void getStreams(Socket s) throws IOException {
-		// Make sure to close old streams
-		if (in != null) {
-			in.close();
+	public static void main(String[] args) throws Exception {
+		InetAddress addr = InetAddress.getByName("localhost");
+		int cavePortBase = 1234;
+
+		if (args.length > 0) {
+			addr = InetAddress.getByName(args[0]);
+			cavePortBase = Integer.parseInt(args[1]);
 		}
 
-		if (out != null) {
-			out.close();
-		}
-
-		// Get new streams based on the socket.
-		in = new BufferedReader(new InputStreamReader(s.getInputStream()));
-		out = new PrintWriter(s.getOutputStream(), true);
-	}
-
-	public static void main(String[] args) throws NumberFormatException, IOException {
-		System.out.println("Starting Client");
-		System.out.println("  Client:      args[0] = " + args[0]);
-		System.out.println("  Client:      args[1] = " + args[1]);
-		Client c = new Client();
-		c.run(InetAddress.getByName(args[0]), Integer.parseInt(args[1]));
+		CaveProxy cave = new CaveProxy(new Socket(addr, cavePortBase));
+		Client c = new Client(cave);
+		c.run();
 	}
 }
