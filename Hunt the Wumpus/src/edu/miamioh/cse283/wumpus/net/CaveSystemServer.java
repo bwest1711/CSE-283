@@ -5,6 +5,15 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * Needs two ports
+ * <ol>
+ * <li>Clients</li>
+ * <li>Caves</li>
+ * </ol>
+ * @author westbs2
+ *
+ */
 public class CaveSystemServer {
 
 	/** Inner class to handle multiple threads */
