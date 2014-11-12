@@ -10,5 +10,4 @@ public class Room {
 	public Room() {
 		players = new ArrayList<ClientProxy>();
 	}
-
 }
