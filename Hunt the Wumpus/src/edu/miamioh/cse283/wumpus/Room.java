@@ -12,6 +12,7 @@ public class Room {
 	public Room(String roomNum, String roomOne, String roomTwo, String roomThree, String danger) {
 		players = new ArrayList<ClientProxy>();
 
+		// Accidentally built the rooms based 1...instead of redoing all the typing
 		this.roomNum = Integer.parseInt(roomNum) - 1;
 		this.roomOne = Integer.parseInt(roomOne) - 1;
 		this.roomTwo = Integer.parseInt(roomTwo) - 1;
