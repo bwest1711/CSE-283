@@ -126,11 +126,8 @@ public class CaveSystemServer {
 
 	/** Main method (run the CaveSystemServer). */
 	public static void main(String[] args) throws Exception {
-		int cssPortBase = 1234;
 
-		if (args.length > 0) {
-			cssPortBase = Integer.parseInt(args[0]);
-		}
+		int cssPortBase = Integer.parseInt(args[0]);
 
 		CaveSystemServer css = new CaveSystemServer(cssPortBase);
 		css.run();

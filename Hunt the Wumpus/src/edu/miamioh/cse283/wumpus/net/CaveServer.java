@@ -115,15 +115,9 @@ public class CaveServer {
 
 	/** Main method (run the CaveServer). */
 	public static void main(String[] args) throws Exception {
-		InetAddress addr = InetAddress.getByName("localhost");
-		int cssPortBase = 1234;
-		int cavePortBase = 2000;
-
-		if (args.length > 0) {
-			addr = InetAddress.getByName(args[0]);
-			cssPortBase = Integer.parseInt(args[1]);
-			cavePortBase = Integer.parseInt(args[2]);
-		}
+		InetAddress addr = InetAddress.getByName(args[0]);
+		int cssPortBase = Integer.parseInt(args[1]);
+		int cavePortBase = Integer.parseInt(args[2]);
 
 		// first, we need our proxy object to the CaveSystemServer:
 		CaveSystemServerProxy caveSystem = new CaveSystemServerProxy(new Socket(addr, cssPortBase + 1));

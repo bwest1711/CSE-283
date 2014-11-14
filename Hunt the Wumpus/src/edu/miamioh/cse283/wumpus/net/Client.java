@@ -61,6 +61,10 @@ public class Client {
 		}
 	}
 
+	public Player getPlayer() {
+		return player;
+	}
+
 	/**
 	 * Main method for clients.
 	 * 
@@ -68,13 +72,8 @@ public class Client {
 	 *            contains the hostname and port number of the server that this client should connect to.
 	 */
 	public static void main(String[] args) throws Exception {
-		InetAddress addr = InetAddress.getByName("localhost");
-		int cavePortBase = 1234;
-
-		if (args.length > 0) {
-			addr = InetAddress.getByName(args[0]);
-			cavePortBase = Integer.parseInt(args[1]);
-		}
+		InetAddress addr = InetAddress.getByName(args[0]);
+		int cavePortBase = Integer.parseInt(args[1]);
 
 		CaveProxy cave = new CaveProxy(new Socket(addr, cavePortBase));
 		Client c = new Client(cave);
