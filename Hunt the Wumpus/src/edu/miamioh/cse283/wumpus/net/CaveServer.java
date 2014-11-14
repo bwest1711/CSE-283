@@ -22,14 +22,6 @@ public class CaveServer {
 	/** Port base for this cave server. */
 	protected int portBase;
 
-	private final String startMessage = "   _____  _                 _                   _                    _            _                    _ \n"
-			+ "  |_   _|| |_   __ _  _ _  | |__  __ _  ___  __| |  _  _  ___  _  _ ( )_ _  ___  | |_   ___  _ _  ___ | |\n"
-			+ "    | |  | ' \\ / _` || ' \\ | / / / _` |/ _ \\/ _` | | || |/ _ \\| || ||/| '_|/ -_) | ' \\ / -_)| '_|/ -_)|_|\n"
-			+ "    |_|  |_||_|\\__,_||_||_||_\\_\\ \\__, |\\___/\\__,_|  \\_, |\\___/ \\_,_|  |_|  \\___| |_||_|\\___||_|  \\___|(_)\n"
-			+ "                                 |___/              |__/                                                 \n\n" + " SHOOT - shoots an arrow\n"
-			+ "PICKUP - picks up whatever gold/arrows are on the ground\n" + " CLIMB - climbs the ladder to exit the cave\n"
-			+ "  MOVE - followed by a number to move to a different room\n";
-
 	/** Socket for accepting connections from players. */
 	protected ServerSocket clientSocket;
 
