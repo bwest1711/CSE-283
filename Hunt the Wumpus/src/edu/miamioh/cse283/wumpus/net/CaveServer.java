@@ -4,6 +4,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Random;
 
 import edu.miamioh.cse283.wumpus.Room;
 import edu.miamioh.cse283.wumpus.net.proxy.CaveSystemServerProxy;
@@ -68,15 +69,20 @@ public class CaveServer {
 		 */
 		public void run() {
 			try {
-				client.message("Welcome!");
+				Random r = new Random();
+				int roomNum = r.nextInt(20);
+
+				// client.message("Welcome!");
+				client.message("You are located in room " + roomNum);
 
 				// put the player in a room (any room is fine)
-
 				// now, in a loop while the player is alive:
 				// -- send the player their "senses":
 				client.senses("You are in an empty room.");
+
 				// -- and retrieve their action:
 				String action = client.getAction();
+				System.out.println(action);
 				// -- and perform the action
 
 			} catch (Exception ex) {

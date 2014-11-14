@@ -3,6 +3,7 @@ package edu.miamioh.cse283.wumpus.net;
 import java.net.InetAddress;
 import java.net.Socket;
 
+import edu.miamioh.cse283.wumpus.Player;
 import edu.miamioh.cse283.wumpus.net.proxy.CaveProxy;
 
 /**
@@ -19,10 +20,12 @@ public class Client {
 
 	/** Proxy object that connects the client to its current cave. */
 	protected CaveProxy cave;
+	private Player player;
 
 	/** Constructor. */
 	public Client(CaveProxy cave) {
 		this.cave = cave;
+		this.player = new Player();
 	}
 
 	/** Returns true if the player is still alive. */
@@ -41,14 +44,13 @@ public class Client {
 			// all clients initially experience a handoff:
 			cave = cave.handoff();
 			System.out.println(cave.getMessage());
-
 			// now start the sense and respond loop:
 			while (isAlive()) {
-				System.out.println(cave.getSenses());
-
 				// get an action from the player, and
 				// send it to the cave server.
-				cave.sendAction("move 1");
+				System.out.println(cave.getSenses());
+				if (player.hasInput())
+					cave.sendAction(player.getInput());
 
 			}
 

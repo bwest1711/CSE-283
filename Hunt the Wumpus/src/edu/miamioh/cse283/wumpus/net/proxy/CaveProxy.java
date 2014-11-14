@@ -7,7 +7,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 
 /**
- * Proxy cave object.
+ * Proxy cave object. Holds all network communication code for the Cave Server.
  * 
  */
 public class CaveProxy {
@@ -23,7 +23,7 @@ public class CaveProxy {
 	/** Address that should be used by clients to connect to this cave server. */
 	protected InetAddress remoteClientAddress;
 
-	/** Port numberthat should be used by clients to connect to this cave server. */
+	/** Port number that should be used by clients to connect to this cave server. */
 	protected int remoteClientPort;
 
 	/** Constructor. */

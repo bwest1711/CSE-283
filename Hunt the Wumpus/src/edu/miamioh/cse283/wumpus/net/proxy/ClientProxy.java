@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-/** Proxy client object. 
+/** Proxy client object. Holds all network code for the Client
  * 
  */
 public class ClientProxy {
