@@ -8,15 +8,15 @@ public class DevServer {
 	public static void main(String[] args) throws Exception {
 		Object lock = new Object();
 		synchronized (lock) {
-			new Thread(new CaveSystemServerDevel()).start();
+			new Thread(new CaveSystemServerDev()).start();
 			lock.wait(500);
-			new Thread(new CaveServerDevel()).start();
+			new Thread(new CaveServerDev()).start();
 			lock.wait(500);
-			new Thread(new ClientDevel()).start();
+			new Thread(new ClientDev()).start();
 		}
 	}
 
-	public static class CaveSystemServerDevel implements Runnable {
+	public static class CaveSystemServerDev implements Runnable {
 		public void run() {
 			String[] caveSystemServerArgs = { "1234" };
 			try {
@@ -27,7 +27,7 @@ public class DevServer {
 		}
 	}
 
-	public static class CaveServerDevel implements Runnable {
+	public static class CaveServerDev implements Runnable {
 		public void run() {
 			String[] caveServerArgs = { "localhost", "1234", "2000" };
 			try {
@@ -38,7 +38,7 @@ public class DevServer {
 		}
 	}
 
-	public static class ClientDevel implements Runnable {
+	public static class ClientDev implements Runnable {
 		public void run() {
 			String[] clientArgs = { "localhost", "1234" };
 			try {

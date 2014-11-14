@@ -43,17 +43,19 @@ public class Client {
 		try {
 			// all clients initially experience a handoff:
 			cave = cave.handoff();
-			System.out.println(cave.getMessage());
+			System.out.println(cave.getMessage()); // Welcome message from cave
+
 			// now start the sense and respond loop:
 			while (isAlive()) {
+				System.out.println(cave.getMessage()); // Gets message from room
+				System.out.println(cave.getSenses()); // Gets senses from adjoining rooms
+
 				// get an action from the player, and
 				// send it to the cave server.
-				System.out.println(cave.getSenses());
-				if (player.hasInput())
+				if (player.hasInput()) {
 					cave.sendAction(player.getInput());
-
+				}
 			}
-
 		} catch (Exception ex) {
 			// If an exception is thrown, we can't fix it here -- Crash.
 			ex.printStackTrace();
