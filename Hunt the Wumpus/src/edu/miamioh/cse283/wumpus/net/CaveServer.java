@@ -111,6 +111,8 @@ public class CaveServer {
 					if (action.startsWith("MOVE")) {
 						String num = action.substring(5);
 						roomNum = Integer.parseInt(num.trim());
+					} else if(action.startsWith("SHOOT")){
+						client.message("You shot");
 					}
 
 					// -- and perform the action
