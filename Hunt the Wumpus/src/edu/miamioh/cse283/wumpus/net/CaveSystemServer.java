@@ -81,8 +81,8 @@ public class CaveSystemServer {
 		/**
 		 * Play the game.
 		 * 
-		 * The cave system server has limited game-playing functionality. It must handle: 1) logging players into the system 2) letting players exit the game via the ladder 3)
-		 * handing-off players to another cave
+		 * The cave system server has limited game-playing functionality. It must handle: 1) logging players into the system 2) letting players exit
+		 * the game via the ladder 3) handing-off players to another cave
 		 */
 		public void run() {
 			try {
@@ -126,10 +126,7 @@ public class CaveSystemServer {
 
 	/** Main method (run the CaveSystemServer). */
 	public static void main(String[] args) throws Exception {
-
-		int cssPortBase = Integer.parseInt(args[0]);
-
-		CaveSystemServer css = new CaveSystemServer(cssPortBase);
+		CaveSystemServer css = new CaveSystemServer(Integer.parseInt(args[0]));
 		css.run();
 	}
 }
